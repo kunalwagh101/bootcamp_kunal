@@ -22,7 +22,7 @@ python -m many_hellos.main kunal
 ***Install the dependence***
 
 ```
-  pip install --index-url https://test.pypi.org/simple/ many-hellos
+pip install --index-url https://test.pypi.org/simple/ many-hellos
 
 ``` 
 
