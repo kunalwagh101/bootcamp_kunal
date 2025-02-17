@@ -21,7 +21,7 @@ cd bootcamp_kunal
 **For Linux and macOS**
    
 ```
-python3.8 -m venv venv
+python -m venv venv
 source venv/bin/activate
 
 ```
