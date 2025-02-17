@@ -12,6 +12,12 @@ git clone git@github.com:kunalwagh101/bootcamp_kunal.git
 
 # Create a virtual environment
 
+```
+
+cd bootcamp_kunal
+
+```
+
 **For Linux and macOS**
    
 ```
