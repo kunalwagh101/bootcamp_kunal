@@ -2,6 +2,7 @@
 
 
 **NO.6 Add logging to your library (both the files -- sayhello and config reader), using logging library.**
+
 **NO.7 Turn on the logging when you are executing many-hellos.**
 **NO.8 Turn it off and see.**
 **NO.9 Turn on selectively only for the config reader code and show it works.**
@@ -26,7 +27,7 @@ python -m many_hellos.main kunal
 
 ```
 
-***to access the logs : Run the application with the verbose flag , it turns logs on ***
+***To access the logs : Run the application with the verbose flag , it turns logs on***
 
 ```
 python -m many_hellos.main --verbose hello Alice Bob
