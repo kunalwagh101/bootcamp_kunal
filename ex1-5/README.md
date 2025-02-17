@@ -15,10 +15,15 @@
 ***Working localy***
 
 ```
+python -m many_hellos.main hello kunal
+
+```
+or try 
+
+```
 python -m many_hellos.main kunal
 
 ```
-
 ***Install the dependence***
 
 ```
@@ -29,6 +34,13 @@ pip install --index-url https://test.pypi.org/simple/ many-hellos
 
 ```
 python -m many_hellos.main kunal
+
+```
+
+or try 
+
+```
+python -m many_hellos.main hello kunal
 
 ```
 

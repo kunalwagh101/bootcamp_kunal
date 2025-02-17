@@ -53,3 +53,5 @@ urllib3==2.3.0
 virtualenv==20.29.2
 wcwidth==0.2.13
 zipp==3.21.0
+PyYAML==6.0.2
+typer == 0.15.1
