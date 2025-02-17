@@ -1,3 +1,8 @@
+"""
+Static Variables and Methods: Explore the use of static variables and methods in a class.
+Example: Track the number of instances created for a class using a static variable.
+"""
+
 
 
 class Counter:

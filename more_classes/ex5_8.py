@@ -1,7 +1,8 @@
 """"
-No5.Implementing an Abstract Base Class (ABC): Create an abstract base
-class Shape with an abstract method area.
-Derive subclasses like Circle and Rectangle, implementing area in each.
+No.8 Abstract Properties: Add abstract properties to an abstract bas
+ class and implement them in child classes.
+Example: abstract class Animal with an abstract property sound.
+
 """
 
 

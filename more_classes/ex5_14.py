@@ -1,4 +1,7 @@
-
+"""
+No.14 Operator Overloading: Overload comparison operators in a class.
+Implement __eq__, __lt__, etc., in a class to enable direct object comparisons.
+"""
 
 class FileOpen:
     def __init__(self, filepath, mode):

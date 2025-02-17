@@ -1,4 +1,9 @@
 
+"""
+No.10 Class Decorators: Write a class decorator that adds a new method or attribute to the class.
+Apply it to an existing class and demonstrate the added functionality.
+"""
+
 
 def add_hello(cls):
     def say_hello(self):

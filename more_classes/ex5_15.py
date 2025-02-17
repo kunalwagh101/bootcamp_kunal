@@ -1,5 +1,8 @@
 
-
+"""
+No.15 Immutable Class: Create an immutable class where instances cannot be modified after creation.
+Example: A Point class representing a point in 2D space.
+"""
 class Point:
     def __init__(self, x, y):
         super().__setattr__('x', x)

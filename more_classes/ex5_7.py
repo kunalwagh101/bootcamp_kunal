@@ -1,4 +1,10 @@
 
+"""
+No.7 Using Dunder Methods for Arithmetic: Implement __add__, __sub__, 
+and other arithmetic dunder methods in a Vector class.
+Test the class with vector addition, subtraction, etc.
+"""
+
 
 class Vector:
     def __init__(self, x, y):

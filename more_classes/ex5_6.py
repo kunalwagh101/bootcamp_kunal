@@ -1,5 +1,10 @@
 
+"""
+No.6 Contracts with @property: Implement a Temperature class that strictly 
+controls setting and getting temperature values using @property.
+Enforce a range for temperature values (e.g., -273.15°C to 5000°C).
 
+"""
 class Temperature:
     def __init__(self, temperature):
         self.temperature = temperature  

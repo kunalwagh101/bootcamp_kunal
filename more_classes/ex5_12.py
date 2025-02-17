@@ -1,4 +1,7 @@
-# streamable.py
+"""
+No.12 Enforcing Interface Implementation: Create an interface using ABC and enforce its implementation in subclasses.
+Example: An interface Streamable with method stream() and subclasses like VideoStream and AudioStream.
+"""
 
 from abc import ABC, abstractmethod
 

@@ -1,3 +1,10 @@
+"""
+Dynamic Class Creation: Dynamically create a class at runtime.
+Use type to create a new class with dynamically specified properties
+"""
+
+
+
 
 
 def init(self, name, age):

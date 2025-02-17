@@ -1,4 +1,7 @@
-
+"""
+No.13 Class Mixins: Implement and use mixins to add common functionalities to classes.
+Example: A JsonMixin that adds JSON serialization/deserialization to classes.
+"""
 
 import json
 

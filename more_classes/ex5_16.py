@@ -1,6 +1,13 @@
+"""
+No.16 Custom Context Managers: Implement a class that works as a 
+context manager using __enter__ and __exit__ dunder methods.
+Example: A FileOpen class that opens and closes files gracefully.
+"""
+
 
 
 from functools import total_ordering
+
 
 @total_ordering
 class ComparableItem:
