@@ -1,0 +1,30 @@
+[project]
+name = "ex1_3_command"
+version = "0.1.4"
+description = ""
+authors = [
+    {name = "Your Name",email = "you@example.com"}
+]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "typer (>=0.15.0,<0.16.0)"
+]
+packages = [{ include = "ex1_3_command" }]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.4"
+
+[tool.poetry.scripts]
+ex1_3_command = "ex1_3_command.main:main"
+
+
+[[tool.poetry.source]]
+name = "testpypi"
+url = "https://test.pypi.org/simple/"
+
