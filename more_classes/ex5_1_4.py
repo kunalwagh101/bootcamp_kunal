@@ -57,6 +57,6 @@ if __name__ == '__main__':
     print(book1)              
     print(repr(book2))      
 
-    print("ISBN 123456789X valid?", Book.validate_isbn("123456789X"))
-    print("ISBN 9780060935467 valid?", Book.validate_isbn("9780060935467"))
+    print("ISBN 123456789X is valid", Book.validate_isbn("123456789X"))
+    print("ISBN 9780060935467 is valid", Book.validate_isbn("9780060935467"))
     print("Total books created:", Book.get_book_count())
