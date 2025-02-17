@@ -26,6 +26,6 @@ if __name__ == '__main__':
     try:
         temp = Temperature(25)
         print(temp)
-        temp.temperature = 6000  
+        temp.temperature = 25 
     except ValueError as e:
         print("Error:", e)

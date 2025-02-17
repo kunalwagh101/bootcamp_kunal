@@ -27,7 +27,7 @@
 
 
 
-***cd to this folder classes_and_object and run below command , make sure you have a running env***
+***cd to this folder classes_and_object and just run below command , make sure you have a running env***
 
 
 
