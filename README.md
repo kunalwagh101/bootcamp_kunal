@@ -44,7 +44,13 @@ pip install -r requirements.txt
 
 ```
 
+***Just in case some dependence might not get install so ran***
 
+```
+pip install pyyaml
+pip install typer
+
+```
 
 **Just cd into the classes_and_object, data_structures, decorators_and_lambda and more_classes**
 
