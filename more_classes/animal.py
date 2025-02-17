@@ -1,3 +1,9 @@
+""""
+No5.Implementing an Abstract Base Class (ABC): Create an abstract base
+class Shape with an abstract method area.
+Derive subclasses like Circle and Rectangle, implementing area in each.
+"""
+
 
 from abc import ABC, abstractmethod
 
