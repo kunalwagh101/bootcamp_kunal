@@ -2,7 +2,7 @@
 
 # STEPS TO RUN THE APPLICATION
 
-# Clone the repository
+## Clone the repository
 ```
 
 git clone git@github.com:kunalwagh101/bootcamp_kunal.git
@@ -10,7 +10,7 @@ git clone git@github.com:kunalwagh101/bootcamp_kunal.git
 ```
 
 
-# Create a virtual environment
+## Create a virtual environment
 
 ```
 
@@ -55,7 +55,7 @@ pip install typer
 **Just cd into the classes_and_object, data_structures, decorators_and_lambda and more_classes**
 
 
-***And use this following command to run all of the python files in the specific folder***
+## And use this following command to run all of the python files in the specific folder
 
 
 
