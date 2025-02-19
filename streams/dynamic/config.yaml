@@ -1,0 +1,5 @@
+pipeline:
+  - lowercase
+  - remove_stop_words
+  - uk_to_us
+  - upper_case

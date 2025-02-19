@@ -1,0 +1,5 @@
+pipeline:
+  - coalesce_empty_lines
+  - break_lines
+  - number_the_lines
+  - stream_capitalize
