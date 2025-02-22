@@ -28,7 +28,6 @@ Task: Create a Pydantic model for items and use it in a route to add a new item.
 Expected Output: Validation and addition of items through the Pydantic model.
 """
 
-
 class Cars(BaseModel):
 
     name :Optional[str] = None
@@ -38,8 +37,6 @@ class Cars(BaseModel):
 
     class Config:
         orm_mode = True
-
-
 
 
 """
@@ -57,8 +54,6 @@ async def main(request: Request):
         return templates.TemplateResponse("index.html", {"request": request, "items": items, "value": value})
 
 
-
-
 """
 No.2 CRUD Operations for a Resource
 
@@ -67,9 +62,7 @@ Task: Define routes for creating, reading, updating, and deleting items, using a
 Expected Output: Functional CRUD operations for items.
 """
 
-
-
-
+"""              CREATE           """
 @app.get("/test/create",response_class=HTMLResponse)
 def test_create(request:Request):
     item  =  Cars(id = "1",company = "bwm" , model = "5", color = "red" )  
@@ -80,6 +73,9 @@ def test_create(request:Request):
     val =   request.session["item"]
     print("session = ", request.session)
     return f"{item} , session ={ val} stored succesfull "
+
+
+"""              Read           """
 
 @app.get("/test/read",response_class = HTMLResponse)
 def test_read(request:Request):
@@ -93,6 +89,7 @@ def test_read(request:Request):
    
     return HTMLResponse(f"<h4>{request.session.keys()}</h4>")
 
+"""              Update         """
 
 @app.get("/test/update" ,response_class = HTMLResponse)
 def test_update(request : Request):
@@ -104,6 +101,8 @@ def test_update(request : Request):
     except Exception as e :
         logger(f"{e} this is the error ")
         raise HTTPException(status_code=500, detail=f"An error occurred: {str(e)}")
+    
+"""              delete             """
 
 @app.get("/test/delete/{value}",response_class = HTMLResponse)
 def test_delete(request: Request,value:str) :
@@ -112,9 +111,6 @@ def test_delete(request: Request,value:str) :
     del request.session[value]
 
     return  HTMLResponse(f"<h4>Item deleted successfully</h4>")
-
-
-
 
 """
 No.3 Path and Query Parameters
@@ -139,7 +135,6 @@ def path_work(request : Request ,
      print("name =", request.session[value]["company"])
      if company == request.session[value]["company"] :      
         return HTMLResponse("<h1>value all read exit</h1> ")
-    
 
 
 """
@@ -151,14 +146,12 @@ Task: Connect FastAPI to a SQLite database and modify CRUD operations to use the
 Expected Output: CRUD operations interact with a SQLite database. (To add, update, and delete items),
 """
 
-
 def get_db():
     db = SessionLocal()
     try:
         yield db
     finally:
         db.close()
-
 
 @app.get("/create", response_class=HTMLResponse)
 def create(request : Request ,db:Session = Depends(get_db),):
@@ -183,7 +176,7 @@ def read(request : Request ,db :Session = Depends(get_db)) :
     car =  get_value[0]
     logger.info(f"get_value = {car} - {car.id}", )
     return HTMLResponse(f"this is the value in db  : {get_value[0]}")
-    
+ 
 
 @app.get("/read/{name}" , response_class=HTMLResponse)
 def read_value(request :Request,name :Optional[str] ,db :Session = Depends(get_db), id:Optional[int] =None ):
@@ -196,8 +189,6 @@ def read_value(request :Request,name :Optional[str] ,db :Session = Depends(get_d
         return  HTMLResponse(f"<h3> Requested info did not found ! </h3>")
 
     return HTMLResponse(f"<h3>your Requested info is this = {get_value}  </h3>")
-
-
 
 @app.get("/update/{id}" , response_class=HTMLResponse)
 def update(request:Request,id :int,model :Optional[str] = None ,name:Optional[str] = None ,
@@ -219,8 +210,6 @@ def update(request:Request,id :int,model :Optional[str] = None ,name:Optional[st
     db.refresh(query)
     return HTMLResponse(f'This your item = {query}')
     
-
-
 @app.get("/delete/{id}", response_class =HTMLResponse )
 def delete(request:Request,id : int,db : Session= Depends(get_db)):
     if not id :
@@ -233,7 +222,6 @@ def delete(request:Request,id : int,db : Session= Depends(get_db)):
     message = f"deleted {query.name} succesfully "
     redirect_url  = f"/?value ={message.replace(' ', '+')}" 
     return RedirectResponse(url= redirect_url ,status_code=303)
-
 
 """
 No.6 Background Tasks
@@ -256,9 +244,6 @@ def do_action(background_tasks: BackgroundTasks, email: str):
     body = "Your action has been successfully completed!"   
     background_tasks.add_task(send_email_notification, email, subject, body) 
     return JSONResponse({"message": "Action initiated. An email notification will be sent shortly."})
-
-
-
 
 """
 No.7 File Uploads
@@ -293,7 +278,6 @@ async def list_uploads(request: Request):
     return HTMLResponse(f"this is a file {file}")
 
 
-
 """
 No.8 Serving Static Files
 
@@ -302,7 +286,6 @@ Task: Configure FastAPI to serve static files from a directory.
 Expected Output: Static files are accessible via FastAPI. API routes take precedence.
 
 """
-
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.get("/image", response_class=HTMLResponse)
