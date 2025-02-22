@@ -1,5 +1,5 @@
 """
-Fetch Public GitHub Repositories
+No.1 Fetch Public GitHub Repositories
 
 Objective: Use the GitHub REST API to fetch public repositories.
 Task: Write a Python script that uses the requests library to get a few of public repositories from the GitHub API (https://api.github.com/repositories) and prints the names.

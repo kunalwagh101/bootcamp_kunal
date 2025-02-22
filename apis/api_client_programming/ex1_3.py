@@ -1,5 +1,5 @@
 """
-List Public Events on GitHub
+No.3 List Public Events on GitHub
 
 Objective: Access and display GitHub's public events.
 Task: Use requests to fetch and print the recent public events 

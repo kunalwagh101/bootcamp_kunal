@@ -1,5 +1,5 @@
 """
-Get User Details from GitHub
+No.2 Get User Details from GitHub
 
 Objective: Retrieve user details from GitHub using their REST API.
 Task: Create a command line program that takes a GitHub username as an argument and fetches 

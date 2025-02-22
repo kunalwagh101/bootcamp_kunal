@@ -10,3 +10,5 @@ __pycache__
 
 persistence/
 streams\README.md/
+
+apis\copy_streamlit_applications/
