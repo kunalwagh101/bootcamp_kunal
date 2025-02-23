@@ -8,7 +8,7 @@ venv/
 streams\basics\__pycache__/
 __pycache__
 
-persistence/
-streams\README.md/
+
+
 
 apis\copy_streamlit_applications/

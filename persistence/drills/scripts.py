@@ -7,7 +7,7 @@ def natural_sort_key(path: Path):
 
 
 current_folder = Path.cwd()
-py_files = list(current_folder.glob("ex5_*.py"))
+py_files = list(current_folder.glob("ex1_*.py"))
 py_files.sort(key=natural_sort_key)
 
 for py_file in py_files:
