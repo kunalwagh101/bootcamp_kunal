@@ -16,9 +16,9 @@
 
 ## Contains :
 
-- *** main.py     == contain the routes , ex from 1 to 8 ***
-- *** models.py   == contain the database ***
-- *** database.py == contain the config , also the Question no.5 ***
+- **main.py     == contain the routes , ex from 1 to 8**
+- **models.py   == contain the database**
+- **database.py == contain the config , also the Question no.5**
 
 
 
