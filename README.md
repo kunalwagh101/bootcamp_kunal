@@ -1,4 +1,25 @@
 
+# Persistent Queue System
+
+## Approch
+
+- **Producer:** Generates and submits jobs (random files) every 5 seconds.
+- **Consumer:** Polls and processes jobs (by adding timestamps to file contents) and updates their status.
+- **Admin:** A CLI tool (built with Typer) for listing, resubmitting, or marking jobs as failed.
+- **Ops Dashboard:** A Streamlit app that displays current job statuses and details.
+
+The system is designed to be robust and fault-tolerant by using SQLite transactions for atomic operations and Supervisor to manage processes.
+
+## System Design & Architecture
+- **PersistentQInterface:** An abstract base class defining the API for enqueuing, dequeuing, updating, and listing jobs.
+- **PersistentQSQLAlchemy:** A concrete implementation using SQLAlchemy for ORM-based access to an SQLite database. It leverages SQLite transactions to ensure that jobs are processed atomically.
+- **Modules:**
+  - **Producer:** Generates random files and enqueues them.
+  - **Consumer:** Dequeues jobs, processes them by prepending timestamps, and updates job status.
+  - **Admin:** Provides CLI commands to manage jobs.
+  - **Ops:** A Streamlit dashboard for real-time monitoring.
+- **Process Management:** Uses Supervisor (or an alternative on Windows, such as Honcho or WSL) to manage the producer and consumer processes.
+
 
 
 
