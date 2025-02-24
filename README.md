@@ -23,6 +23,8 @@ The system is designed to be robust and fault-tolerant by using SQLite transacti
 
 
 
+
+
 ## STEPS TO RUN THE APPLICATION
 
 ## Clone the repository
@@ -31,7 +33,7 @@ The system is designed to be robust and fault-tolerant by using SQLite transacti
 git clone git@github.com:kunalwagh101/bootcamp_kunal.git
 
 ```
-
+ - **Then Cd untill u find PersistentQSQlite**
 
 ## Create a virtual environment
 
