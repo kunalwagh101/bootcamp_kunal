@@ -23,9 +23,9 @@ The system is designed to be robust and fault-tolerant by using SQLite transacti
 
 
 
-# STEPS TO RUN THE APPLICATION
+## STEPS TO RUN THE APPLICATION
 
-# Clone the repository
+## Clone the repository
 ```
 
 git clone git@github.com:kunalwagh101/bootcamp_kunal.git
@@ -33,7 +33,7 @@ git clone git@github.com:kunalwagh101/bootcamp_kunal.git
 ```
 
 
-# Create a virtual environment
+## Create a virtual environment
 
 ```
 
