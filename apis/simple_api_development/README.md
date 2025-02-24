@@ -3,7 +3,15 @@
 ## How to run the Api_App
 
 
+- **Run the requirements.txt**
+
+```
+pip install requirements.txt
+```
+
 - **cd to Api_app**
+
+
 
 ```
   cd Api_app
