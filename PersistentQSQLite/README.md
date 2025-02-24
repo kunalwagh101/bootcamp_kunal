@@ -19,10 +19,11 @@ source venvv/bin/activate
 - **or use poetry**
 
 ```
-
-```
 poetry install
 poetry run typer
+
+
+```
 
 '''
 pip install requirements.txt
@@ -41,9 +42,9 @@ pip install requirements.txt
 
 ### 1. Running Producer and Consumer with Supervisor
 
--**Note: Supervisor is Unix-based. Windows users may need to use WSL or an alternative like Honcho.**
+- **Note: Supervisor is Unix-based. Windows users may need to use WSL or an alternative like Honcho.**
 
--**Supervisor Configuration: The configuration file is located at supervisor/supervisord.conf.**
+- **Supervisor Configuration: The configuration file is located at supervisor/supervisord.conf.**
 
 ### Start Supervisor:
 
@@ -51,24 +52,24 @@ pip install requirements.txt
 supervisord -c supervisor/supervisord.conf
 ```
 
--**Verify Processes:**
+- **Verify Processes:**
 
 
 
 ### 2. Running the Ops Dashboard (Streamlit)
 
--**To run the interactive dashboard:**
+- **To run the interactive dashboard:**
 
 ```
 poetry run streamlit run ops/ops.py
 ```
 
--**Then, open your browser at http://localhost:8501 to view the dashboard**
+- **Then, open your browser at http://localhost:8501 to view the dashboard**
 
 ### 3. Using the Admin CLI
--**The Admin module is built with Typer to manage jobs. Example commands include:**
+- **The Admin module is built with Typer to manage jobs. Example commands include:**
 
--**List All Jobs:**
+- **List All Jobs:**
 
 ```
 poetry run python -m admin.admin list-jobs
