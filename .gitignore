@@ -9,6 +9,30 @@ streams\basics\__pycache__/
 __pycache__
 
 
+PersistentQSQLite\consumer_err.log/
+PersistentQSQLite\consumer.log/
+PersistentQSQLite\queue.db/
+PersistentQSQLite\producer.log/
+.log/
+PersistentQSQLite\venv/
+PersistentQSQLite\venvv/
+.venv/
+venv/
 
+PersistentQSQLite/consumer_err.log
+venvv/
+PersistentQSQLite/producer_err.log/
+
+
+PersistentQSQLite\supervisord.log/
+
+PersistentQSQLite/supervisord.log/
+PersistentQSQLite\supervisord.log/
+
+ PersistentQSQLite/consumer_err.log
 
 apis\copy_streamlit_applications/
+PersistentQSQLite/consumer_err.log/
+.log
+
+producer_err.log
