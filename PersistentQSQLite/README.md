@@ -21,13 +21,9 @@ source venvv/bin/activate
 ```
 poetry install
 poetry run typer
-
-
 ```
 
-'''
-pip install requirements.txt
-'''
+
 
 ## Install Dependencies 
 
