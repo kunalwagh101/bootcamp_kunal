@@ -45,7 +45,7 @@ pip install -r requirements.txt
 
 ```
 
-***Just in case some dependence might not get install so ran***
+- **Just in case some dependence might not get install so ran**
 
 ```
 pip install pyyaml
@@ -53,10 +53,10 @@ pip install typer
 
 ```
 
-**Just cd into the classes_and_object, data_structures, decorators_and_lambda and more_classes**
+- **Just cd into the classes_and_object, data_structures, decorators_and_lambda and more_classes**
 
 
-***And use this following command to run all of the python files in the specific folder***
+- **And use this following command to run all of the python files in the specific folder**
 
 
 
@@ -67,4 +67,4 @@ python script.py
 
 ```
 
-***or follow the readme.md in that particular folder***
+- **or follow the readme.md in that particular folder**
