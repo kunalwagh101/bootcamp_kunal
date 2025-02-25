@@ -1,0 +1,25 @@
+[project]
+name = "api-app"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Kunal",email = "test@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.poetry.scripts]
+api = "Api_app.main:app"
+
+
+[[tool.poetry.source]]
+name = "testpypi"
+url = "https://test.pypi.org/simple/"
