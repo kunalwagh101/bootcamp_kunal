@@ -12,7 +12,6 @@ pip install requirements.txt
 - **cd to Api_app**
 
 
-
 ```
   cd Api_app
 ```

@@ -1,4 +1,4 @@
-# Drills
+# Sqlalchemy_app
 
 
 
@@ -10,8 +10,14 @@
 
 - **Make sure you have all the required dependencies**
 
+
+- **cd to sqlalchemy_app**
+```
+cd sqlalchemy_app
+```
+
 - **Run this code**
 
 ```
-python script.py
+python main.py
 ```

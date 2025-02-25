@@ -36,4 +36,7 @@ def fetch_latest_launch():
         print("Failed to fetch data. Status Code:", response.status_code)
 
 if __name__ == "__main__":
-    fetch_latest_launch()
+  try :
+      fetch_latest_launch()
+  except :
+    print("working in progress , for now lets move on" )
