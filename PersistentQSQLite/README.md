@@ -57,9 +57,8 @@ pip install -r requirements.txt
 
 ### Start Supervisor:
 
-- **this will launch 3 consumers at a time**
 ```
-
+ supervisord -c supervisor/supervisord.conf
 
 ```
 
