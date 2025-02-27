@@ -27,8 +27,8 @@ The system is designed to be robust and fault-tolerant by using SQLite transacti
 - **for linux use**
 
 ```
-python -m venv venvv
-source venvv/bin/activate
+python -m venv venv
+source venv/bin/activate
 ```
 - **or use poetry**
 
@@ -42,8 +42,7 @@ poetry run typer
 ## Install Dependencies 
 
 ```
-pip install requirements.txt
-
+pip install -r requirements.txt
 ```
 
 
@@ -58,13 +57,17 @@ pip install requirements.txt
 
 ### Start Supervisor:
 
+- **this will launch 3 consumers at a time**
 ```
-supervisord -c supervisor/supervisord.conf
+
+
 ```
 
-- **Verify Processes:**
+- **To monitor consumer processes run this**
+```
+poetry run python -m consumer.consumer
 
-
+```
 
 ### 2. Running the Ops Dashboard (Streamlit)
 
@@ -77,6 +80,7 @@ poetry run streamlit run ops/ops.py
 - **Then, open your browser at http://localhost:8501 to view the dashboard**
 
 ### 3. Using the Admin CLI
+
 - **The Admin module is built with Typer to manage jobs. Example commands include:**
 
 - **List All Jobs:**
@@ -92,9 +96,73 @@ poetry run python -m admin.admin list-jobs
 poetry run python -m admin.admin resubmit <job_id>
 ```
 
--**Mark a Job as Failed**
+- **Mark a Job as Failed**
 
 ```
 poetry run python -m admin.admin mark-failed <job_id>   
 
 ``` 
+- **check all the failed jobs**
+```
+poetry run python -m admin.admin failedjobs
+```
+
+
+- **check status with**
+
+```
+supervisorctl status
+```
+- **or use**
+
+```
+ supervisorctl -c supervisor/supervisord.conf status
+```
+
+
+- **Create multiple consumers !  --count  1 =  adds 3 new consumers**
+
+```
+poetry run python -m manager.consumer_manager --count 1
+```
+
+- **kill a consumer_<consumer id>** 
+
+
+```
+supervisorctl stop consumer_00
+```
+
+- **or try**
+```
+supervisorctl -c supervisor/supervisord.conf stop consumer:consumer_00
+
+```
+
+
+- **Run this to monitor all process at once**
+```
+poetry run python -m admin.admin monitor
+
+```
+
+
+- **To delete all the jobs files created locally 'RUN'**
+```
+poetry run python -m admin.admin delete-job-files --directory .
+```
+
+- **To delete all the jobs from database 'RUN'**
+
+```
+poetry run python -m admin.admin delete-db-jobs
+```
+
+
+- **To manually assign (or reassign) a job file to a chosen consumer**
+
+
+```
+poetry run python -m admin.admin assign-job <job_id> <consumer_id>
+
+```

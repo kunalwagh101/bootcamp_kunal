@@ -2,17 +2,15 @@ import time
 import os
 import random
 import string
-from persistent.persistent import PersistentQSQLite
+from persistent import get_queue
 
-QUEUE = PersistentQSQLite()
+QUEUE = get_queue()
 
 def generate_random_file():
-    """ 
-    Generate random file name 
-    """
+    
     filename = f"job_{int(time.time())}_{''.join(random.choices(string.ascii_lowercase, k=5))}.txt"
     with open(filename, "w") as f:
-        f.write(" sample job file.\n")
+        f.write("This is a sample job file.\n")
     return os.path.abspath(filename)
 
 def submit_job():

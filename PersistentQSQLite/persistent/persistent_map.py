@@ -8,17 +8,17 @@ class Persistent_blueprint(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def dequeue(self) -> Optional[Tuple[str, Any]]:
-        """Dequeue a job for processing, ensuring exclusive access."""
+    def dequeue(self) :
+        """Dequeue a job for processing (using atomic transactions)."""
         pass
 
     @abc.abstractmethod
-    def update_job_status(self, job_id: str, status: str):
+    def update_job_status(self, job_id: str, status: str) :
         """Update the status of a given job."""
         pass
 
     @abc.abstractmethod
-    def get_job_status(self, job_id: str) -> Optional[str]:
+    def get_job_status(self, job_id: str):
         """Retrieve the status of a job by its ID."""
         pass
 

@@ -36,8 +36,6 @@ Jinja2==3.1.5
 jsonschema==4.23.0
 jsonschema-specifications==2024.10.1
 keyring==25.6.0
-kunal-my-module @ file:///mnt/h/Aganitha/kunal_my_module/dist/kunal_my_module-0.1.1-py3-none-any.whl#sha256=ce55e9026bf99aad37957e82ee52556ce091426f8427a0ea627b0cacb2578fe6
-kunal-wf-basics==0.1.2
 many-hellos==0.1.2
 markdown-it-py==3.0.0
 MarkupSafe==3.0.2
