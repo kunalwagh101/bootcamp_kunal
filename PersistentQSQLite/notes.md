@@ -178,18 +178,3 @@ SQLAlchemy is a powerful ORM for interacting with databases, providing an effici
 **Link:**  [chatgpt Link Text](https://chatgpt.com/share/67c131df-7514-8003-93df-c26e6aaea34e)
 
 ---
-## 9. Use of Queue (Revisited)
-
-- **Overview:**  
-  Revisit the fundamental concepts of queue usage in the PersistentQSQLite project. This section reinforces how queues are used to manage asynchronous tasks and integrate with error handling for robust operations.
-
-- **Key Points:**  
-  - Core principles of queue implementation  
-  - Best practices for task management and asynchronous processing  
-  - Integration with error recovery mechanisms
-
-- **Use Cases:**  
-  - Efficient distribution of concurrent tasks  
-  - Handling high volumes of tasks with minimal bottlenecks
-
-  **Link:**  [chatgpt Link Text](https://chatgpt.com/share/67bc826b-3254-8003-92e3-ca6e8a8fab21)
