@@ -95,76 +95,78 @@ poetry run python -m admin.admin list-jobs
 poetry run python -m admin.admin resubmit <job_id>
 ```
 
-- **Mark a Job as Failed**
+- **1. Mark a Job as Failed**
 
 ```
 poetry run python -m admin.admin mark-failed <job_id>   
 
 ``` 
-- **check all the failed jobs**
+- **2. check all the failed jobs**
 ```
 poetry run python -m admin.admin failedjobs
 ```
 
 
-- **check status with**
+- **3. check status with**
 
-```
-supervisorctl status
-```
-- **or use**
 
 ```
  supervisorctl -c supervisor/supervisord.conf status
 ```
 
+- **or use**
+```
+supervisorctl status
+```
 
-- **Create multiple consumers !  --count  1 =  adds 3 new consumers**
+- **4. Create multiple consumers !  --count  1 =  adds 3 new consumers**
 
 ```
 poetry run python -m manager.consumer_manager --count 1
 ```
 
-- **kill a consumer_<consumer id>** 
+- **5. kill a consumer_<consumer id>** 
 
 
-```
-supervisorctl stop consumer_00
-```
 
-- **or try**
 ```
 supervisorctl -c supervisor/supervisord.conf stop consumer:consumer_00
 
 ```
+- **or try**
+```
+supervisorctl stop consumer_00
+```
 
 
-- **Run this to monitor all process at once**
+
+
+- **6. Run this to monitor all process at once**
 ```
 poetry run python -m admin.admin monitor
 
 ```
 
 
-- **To delete all the jobs files created locally 'RUN'**
+- **7.To delete all the jobs files created locally 'RUN'**
 ```
 poetry run python -m admin.admin delete-job-files --directory .
 ```
 
-- **To delete all the jobs from database 'RUN'**
+- **8. To delete all the jobs from database 'RUN'**
 
 ```
 poetry run python -m admin.admin delete-db-jobs
 ```
 
 
-- **To manually assign (or reassign) a job file to a chosen consumer**
+- **9. To manually assign (or reassign) a job file to a chosen consumer**
 
 
-```
-poetry run python -m admin.admin assign-job <job_id> <consumer_id>
+```bash
+  poetry run python -m admin.admin assign-job <job_id> <consumer_id>
 
-```
+
 
 
 
