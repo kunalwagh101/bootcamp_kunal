@@ -1,172 +1,199 @@
+# Persistent Queue System 🚀
 
-# Persistent Queue System
+A robust, fault-tolerant system for managing persistent queues with Producers, Consumers, an Admin CLI, and an Ops Dashboard.
 
-## Approch
+---
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Architecture](#architecture)
+- [Setup & Installation](#setup--installation)
+- [Running the Application](#running-the-application)
+  - [1. Running Producer and Consumer with Supervisor](#1-running-producer-and-consumer-with-supervisor)
+  - [2. Running the Ops Dashboard (Streamlit)](#2-running-the-ops-dashboard-streamlit)
+  - [3. Using the Admin CLI](#3-using-the-admin-cli)
+- [Additional Commands](#additional-commands)
+- [Notes](#notes)
+
+---
+
+## Overview
 
 - **Producer:** Generates and submits jobs (random files) every 5 seconds.
 - **Consumer:** Polls and processes jobs (by adding timestamps to file contents) and updates their status.
-- **Admin:** A CLI tool (built with Typer) for listing, resubmitting, or marking jobs as failed.
-- **Ops Dashboard:** A Streamlit app that displays current job statuses and details.
+- **Admin:** A CLI tool (built with [Typer](https://typer.tiangolo.com/)) for listing, resubmitting, or marking jobs as failed.
+- **Ops Dashboard:** A [Streamlit](https://streamlit.io/) app that displays current job statuses and details.
 
-The system is designed to be robust and fault-tolerant by using SQLite transactions for atomic operations and Supervisor to manage processes.
+The system leverages SQLite transactions for atomic operations and uses Supervisor to manage processes, ensuring high reliability and fault tolerance.
 
-## System Design & Architecture
-- **PersistentQInterface:** An abstract base class defining the API for enqueuing, dequeuing, updating, and listing jobs.
-- **PersistentQSQLAlchemy:** A concrete implementation using SQLAlchemy for ORM-based access to an SQLite database. It leverages SQLite transactions to ensure that jobs are processed atomically.
-- **Modules:**
-  - **Producer:** Generates random files and enqueues them.
-  - **Consumer:** Dequeues jobs, processes them by prepending timestamps, and updates job status.
-  - **Admin:** Provides CLI commands to manage jobs.
-  - **Ops:** A Streamlit dashboard for real-time monitoring.
-- **Process Management:** Uses Supervisor (or an alternative on Windows, such as Honcho or WSL) to manage the producer and consumer processes.
+---
 
+## Architecture
 
+### Core Components
 
-## Activate the Virtual Environment:
+- **PersistentQInterface:**  
+  An abstract base class defining the API for enqueuing, dequeuing, updating, and listing jobs.
 
-- **for linux use**
+- **PersistentQSQLAlchemy:**  
+  A concrete implementation using SQLAlchemy for ORM-based access to an SQLite database. It leverages SQLite transactions to ensure atomic job processing.
 
-```
-python -m venv venv
-source venv/bin/activate
-```
-- **or use poetry**
+### Modules
 
-```
-poetry install
-poetry run typer
-```
+- **Producer:**  
+  Generates random files and enqueues them.
 
+- **Consumer:**  
+  Dequeues jobs, processes them (by prepending timestamps), and updates their status.
 
+- **Admin:**  
+  Provides CLI commands to manage jobs.
 
-## Install Dependencies 
+- **Ops:**  
+  A Streamlit dashboard for real-time monitoring of job statuses.
 
-```
+### Process Management
+
+- **Supervisor:**  
+  Used to manage the producer and consumer processes.  
+  *(Note: For Windows users, consider using WSL or an alternative like [Honcho](https://github.com/nickstenning/honcho).)*
+
+---
+
+## Setup & Installation
+
+### 1. Activate the Virtual Environment
+
+- **For Linux:**
+  ```bash
+  python -m venv venv
+  source venv/bin/activate
+  ```
+
+- **Or Using Poetry:**
+  ```bash
+  poetry install
+  poetry run typer
+  ```
+
+### 2. Install Dependencies
+
+```bash
 pip install -r requirements.txt
 ```
 
+---
 
 ## Running the Application
 
-
 ### 1. Running Producer and Consumer with Supervisor
 
-- **Note: Supervisor is Unix-based. Windows users may need to use WSL or an alternative like Honcho.**
+> **Note:** Supervisor is Unix-based. Windows users may need to use WSL or an alternative like Honcho.
 
-- **Supervisor Configuration: The configuration file is located at supervisor/supervisord.conf.**
+- **Supervisor Configuration:**  
+  The configuration file is located at `supervisor/supervisord.conf`.
 
-### Start Supervisor:
-
+#### Start Supervisor:
+```bash
+supervisord -c supervisor/supervisord.conf
 ```
- supervisord -c supervisor/supervisord.conf
 
-```
-
-- **To monitor consumer processes run this**
-```
+#### Monitor Consumer Processes:
+```bash
 poetry run python -m consumer.consumer
-
 ```
+
+---
 
 ### 2. Running the Ops Dashboard (Streamlit)
 
-- **To run the interactive dashboard:**
-
-```
+Launch the interactive dashboard:
+```bash
 poetry run streamlit run ops/ops.py
 ```
+Then open your browser at [http://localhost:8501](http://localhost:8501) to view the dashboard.
 
-- **Then, open your browser at http://localhost:8501 to view the dashboard**
+---
 
 ### 3. Using the Admin CLI
 
-- **The Admin module is built with Typer to manage jobs. Example commands include:**
+The Admin module is built with Typer for managing jobs. Example commands include:
 
-- **List All Jobs:**
-
-```
+#### List All Jobs:
+```bash
 poetry run python -m admin.admin list-jobs
-
 ```
 
-### Resubmit a Job:
-
-```
+#### Resubmit a Job:
+```bash
 poetry run python -m admin.admin resubmit <job_id>
 ```
 
-- **1. Mark a Job as Failed**
-
+#### Mark a Job as Failed:
+```bash
+poetry run python -m admin.admin mark-failed <job_id>
 ```
-poetry run python -m admin.admin mark-failed <job_id>   
 
-``` 
-- **2. check all the failed jobs**
-```
+#### Check All Failed Jobs:
+```bash
 poetry run python -m admin.admin failedjobs
 ```
 
-
-- **3. check status with**
-
-
+#### Check Supervisor Status:
+```bash
+supervisorctl -c supervisor/supervisord.conf status
 ```
- supervisorctl -c supervisor/supervisord.conf status
-```
-
-- **or use**
-```
+*Or simply:*
+```bash
 supervisorctl status
 ```
 
-- **4. Create multiple consumers !  --count  1 =  adds 3 new consumers**
+---
 
-```
+## Additional Commands
+
+#### Create Multiple Consumers  
+*(Note: `--count 1` adds 3 new consumers)*
+```bash
 poetry run python -m manager.consumer_manager --count 1
 ```
 
-- **5. kill a consumer_<consumer id>** 
-
-
-
-```
+#### Kill a Consumer  
+Replace `<consumer_id>` as needed:
+```bash
 supervisorctl -c supervisor/supervisord.conf stop consumer:consumer_00
-
 ```
-- **or try**
-```
+*Or:*
+```bash
 supervisorctl stop consumer_00
 ```
 
-
-
-
-- **6. Run this to monitor all process at once**
-```
+#### Monitor All Processes
+```bash
 poetry run python -m admin.admin monitor
-
 ```
 
-
-- **7.To delete all the jobs files created locally 'RUN'**
-```
+#### Delete All Local Job Files
+```bash
 poetry run python -m admin.admin delete-job-files --directory .
 ```
 
-- **8. To delete all the jobs from database 'RUN'**
-
-```
+#### Delete All Jobs from the Database
+```bash
 poetry run python -m admin.admin delete-db-jobs
 ```
 
-
-- **9. To manually assign (or reassign) a job file to a chosen consumer**
-
-
+#### Manually Assign (or Reassign) a Job to a Consumer
 ```bash
-  poetry run python -m admin.admin assign-job <job_id> <consumer_id>
+poetry run python -m admin.admin assign-job <job_id> <consumer_id>
+```
 
+---
 
+## Notes
 
-
+- **Virtual Environment:** Ensure the virtual environment is activated before running any commands.
+- **Supervisor Alternatives:** Windows users can use [WSL](https://docs.microsoft.com/en-us/windows/wsl/) or [Honcho](https://github.com/nickstenning/honcho) for process management.
+- **Interactive Monitoring:** Use the Ops Dashboard for real-time insights into job statuses.
 
