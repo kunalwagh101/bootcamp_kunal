@@ -1,4 +1,4 @@
-# PersistentQSQLite - Interactive Notes
+# PersistentQSQLite - Notes
 
 This document summarizes the key components of the **PersistentQSQLite** project. It covers how to manage persistence through supervision, error handling, queues, and database integration with SQLAlchemy. Each section includes an explanation, real-world examples, and a direct link to detailed discussions.
 
