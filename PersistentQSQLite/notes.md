@@ -355,5 +355,5 @@ poetry run python -m admin.admin list-jobs
 **Launch the Interactive Manager (TUI):**
 
 ~~~bash
-poetry run python -m manager.manager_tui
+poetry run python -m manager.manager.py
 ~~~

@@ -4,7 +4,7 @@ import os
 import random
 import string
 from persistent.persistentQSQLAlchemy import PersistentQSQLAlchemy as PersistentQ
-
+import typer
 QUEUE = PersistentQ()
 
 def generate_random_file():
@@ -26,13 +26,19 @@ def submit_job():
     print(f"Produced job: {file_path}")
     QUEUE.enqueue(job_id=file_path, job_data=file_path)
 
-def main():
+
+app = typer.Typer()
+
+
+@app.command()
+def run_producer(interval: int = 5):
     """
-    Continuously produce jobs every 5 seconds.
+    Run the job producer that creates new jobs at a specified time interval (in seconds).
     """
+    typer.echo(f"Starting producer with an interval of {interval} seconds.")
     while True:
         submit_job()
-        time.sleep(5)
+        time.sleep(interval)
 
 if __name__ == "__main__":
-    main()
+    app()

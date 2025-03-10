@@ -1,40 +1,45 @@
+import sys
+from pathlib import Path
+
+# Add the project root directory (one level up from this file's directory) to sys.path.
+current_dir = Path(__file__).resolve().parent
+project_root = current_dir.parent
+sys.path.append(str(project_root))
 
 import datetime
 import pandas as pd
 import streamlit as st
-import sys
-import sys
-from pathlib import Path
-
-current_dir = Path(__file__).resolve().parent
-project_root = current_dir.parent
-sys.path.append(str(project_root))
+from streamlit_autorefresh import st_autorefresh
 from persistent.persistentQSQLAlchemy import PersistentQSQLAlchemy as PersistentQ
 
+# Create a persistent queue instance.
 QUEUE = PersistentQ()
 
-
+# Configure the Streamlit page.
 st.set_page_config(page_title="Persistent Queue Dashboard", layout="wide")
 
+# Auto-refresh the page every 5000 milliseconds (5 seconds).
+st_autorefresh(interval=5000, limit=100, key="dashboard_autorefresh")
 
+# Sidebar navigation.
 st.sidebar.title("Navigation")
 page = st.sidebar.radio("Go to", ["Dashboard", "Manage Jobs", "Actions"])
 
 if page == "Dashboard":
     st.title("Persistent Queue Dashboard")
-    st.markdown("This dashboard shows the current status of all jobs in the persistent queue. The list automatically refreshes every 5 seconds.")
+    st.markdown(
+        """
+        This dashboard shows the current status of all jobs in the persistent queue.
+        The data auto-refreshes every 5 seconds.
+        """
+    )
     
-    
-    jobs = QUEUE.list_jobs()  
+    jobs = QUEUE.list_jobs()  # Returns list of tuples: (job_id, job_data, status, consumer_id)
     if jobs:
         df = pd.DataFrame(jobs, columns=["Job ID", "Job Data", "Status", "Consumer"])
-        st.dataframe(df, use_container_width=True)
+        st.dataframe(df)  # Removed use_container_width parameter.
     else:
         st.info("No jobs found.")
-    
-    st.markdown("_(The page will auto-refresh every 5 seconds)_")
-    st.experimental_set_query_params(refresh=str(datetime.datetime.now()))
-    st.experimental_rerun()
 
 elif page == "Manage Jobs":
     st.title("Manage Jobs")
@@ -73,7 +78,7 @@ elif page == "Manage Jobs":
     jobs = QUEUE.list_jobs()
     if jobs:
         df = pd.DataFrame(jobs, columns=["Job ID", "Job Data", "Status", "Consumer"])
-        st.dataframe(df, use_container_width=True)
+        st.dataframe(df)
     else:
         st.info("No jobs found.")
 
