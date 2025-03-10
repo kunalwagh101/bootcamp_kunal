@@ -1,24 +1,26 @@
 [tool.poetry]
 name = "persistent_queue_system"
 version = "0.1.0"
-description = "A persistent queue system with producers, consumers, admin, and ops."
+description = "A persistent queue system with producers, consumers, admin CLI, and an interactive manager."
 authors = ["Your Name <you@example.com>"]
 
+
 packages = [
-    { include = "persistent" },
-    { include = "producer" },
-    { include = "consumer" },
-    { include = "admin" },
-    { include = "ops" },
-    { include =  "manager"}
+  { include = "persistent" },
+  { include = "producer" },
+  { include = "consumer" },
+  { include = "admin" },
+  { include = "manager" },
+  {include ="ops"}
 ]
 
 [tool.poetry.dependencies]
 python = "^3.8"
 streamlit = "^1.0.0"
 typer = "^0.7.0"
-sqlalchemy = "^1.4.0"
-altair = "^4.2.0"
+SQLAlchemy = "^1.4"
+prompt_toolkit = "^3.0.0"
+streamlit-autorefresh = "^1.0.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

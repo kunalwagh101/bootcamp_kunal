@@ -2,14 +2,16 @@ import time
 import random
 import os
 from datetime import datetime
-from persistent import get_queue
-from persistent.persistent_queue import MAX_ATTEMPTS
+from persistent.persistentQSQLAlchemy  import PersistentQSQLAlchemy as PersistentQ
 
-QUEUE = get_queue()
-
+QUEUE = PersistentQ()
 CONSUMER_ID = f"consumer_{os.getpid()}"
 
 def process_job(job_id: str, job_data: str):
+    """
+    Process the job by reading the file, prepending a timestamp to each line  
+    If an error occurs, a random failure is simulated for testing.
+    """
     try:
         with open(job_data, "r") as f:
             lines = f.readlines()
@@ -21,15 +23,18 @@ def process_job(job_id: str, job_data: str):
         QUEUE.update_job_status(job_id, "completed")
     except Exception as e:
         print(f"[{CONSUMER_ID}] Error processing job {job_id}: {e}")
-        current_attempts = QUEUE.get_attempts(job_id)
-        if current_attempts >= MAX_ATTEMPTS:
-            QUEUE.update_job_status(job_id, "failed")
-            print(f"[{CONSUMER_ID}] Job {job_id} marked as failed after {current_attempts} attempts.")
+    
+        if random.random() < 0.2:
+            print(f"[{CONSUMER_ID}] Simulating consumer crash!")
+            raise SystemExit("Consumer crashed!")
         else:
             QUEUE.update_job_status(job_id, "pending")
-            print(f"[{CONSUMER_ID}] Job {job_id} requeued for retry (attempt {current_attempts}).")
+            print(f"[{CONSUMER_ID}] Job {job_id} requeued for retry.")
 
 def main():
+    """
+    Continuously attempt to dequeue and process jobs with random delays.
+    """
     while True:
         job = QUEUE.dequeue(CONSUMER_ID)
         if job:

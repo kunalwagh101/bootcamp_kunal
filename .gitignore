@@ -3,7 +3,8 @@ __init__.py/
 
 !persistent\__init__.py
 !persistent/__init__.py
-
+PersistentQSQLite/queue.db
+PersistentQSQLite\queue.db
 
 H:\Aganitha\bootcamp\apis\.venv/
 .venv/
@@ -43,3 +44,12 @@ producer_err.log
 PersistentQSQLite/consumer.log
 PersistentQSQLite/producer.log
 
+copy()_Persistent
+copy()_Persistent/
+
+
+
+
+
+PersistentQSQLite\dist\persistent_queue_system-0.1.0-py3-none-any.whl
+PersistentQSQLite\dist\persistent_queue_system-0.1.0.tar.gz

@@ -5,7 +5,7 @@ def get_queue(backend: str = "sqlite") :
     Factory method to get an instance of a persistent queue implementation.
     """
     if backend.lower() == "sqlite":
-        from .persistent_queue import PersistentQSQLite
+        from .persistentQSQLAlchemy import PersistentQSQLite
         return PersistentQSQLite()
     # Future implementations can be added here.
     # elif backend.lower() == "postgres":

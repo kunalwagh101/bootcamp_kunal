@@ -101,7 +101,7 @@ supervisord -c supervisor/supervisord.conf
 
 #### Monitor Consumer Processes:
 ```bash
-poetry run python -m consumer.consumer
+poetry run python -m manager.manager
 ```
 
 ---
