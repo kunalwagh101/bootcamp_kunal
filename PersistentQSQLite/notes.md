@@ -175,14 +175,14 @@ flowchart LR;
        2. Any jobs that were "processing" when the consumers died remain in the database if a job exceeds `MAX_ATTEMPTS`, it is marked as "failed. When a new consumer starts up, it will trigger the cleanup logic
      
 
-**Q:** How can i add more cosumers ? 
+**Q:** How can i add more cosumers ?   
 **A:**  1. Manually Starting Additional Consumer Processes:
 
 ```bash
 poetry run python -m consumer.consumer
 
 ```
-        2. Refer to - [Add More Consumers](#Add-More-Consumers)
+  2. Refer to - [Add More Consumers](#Add-More-Consumers)
 
 
 
