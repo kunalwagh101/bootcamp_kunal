@@ -185,34 +185,84 @@ flowchart LR;
    ~~~bash
    poetry install
    ~~~
+## Setup & Installation
+
+... (previous content)
 
 2. **Environment Configuration**
 
    Create a `.env` file in the project root with the following content:
 
    ~~~ini
-  QUEUE_DB_FILE=queue.db
-  MAX_ATTEMPTS=3
-  TIMEOUT_SECONDS=60
-  INTERVAL_TIME = 5 
+   QUEUE_DB_FILE=queue.db
+   MAX_ATTEMPTS=3
+   TIMEOUT_SECONDS=60
+   INTERVAL_TIME=5
    ~~~
 
-  **add more consumers ?**
+3. **Install Dependencies**
 
-  In supervisord.conf file 
-  ```ini
+   Ensure all required packages are installed via Poetry:
 
-  [program:consumer]
-  command=poetry run python -m consumer.consumer
-  numprocs=1
-  process_name=%(program_name)s_%(process_num)02d
-  autostart=true
-  autorestart=true
-  stdout_logfile=consumer.log
-  stderr_logfile=consumer_err.log
-  ```
- 
-  change numprocs to = no. of consumers you want
+   ~~~bash
+   poetry install
+   ~~~
+
+## Running the Application
+
+### Supervisor Process Management
+
+Start Supervisor:
+
+~~~bash
+supervisord -c supervisor/supervisord.conf
+~~~
+
+Check Process Status:
+
+~~~bash
+supervisorctl status
+~~~
+
+#### Adding More Consumers
+
+To increase the number of consumers, you need to modify the `supervisor/supervisord.conf` file.  Locate the `[program:consumer]` section and adjust the `numprocs` value.
+
+For example, to run 3 consumers, modify the configuration like this:
+
+~~~ini
+[program:consumer]
+command=poetry run python -m consumer.consumer
+numprocs=3
+process_name=%(program_name)s_%(process_num)02d
+autostart=true
+autorestart=true
+stdout_logfile=consumer.log
+stderr_logfile=consumer_err.log
+~~~
+
+-   **`numprocs=3`**:  This line specifies the number of consumer processes Supervisor will launch and manage. In this example, it's set to `3`, meaning three consumer processes will be started.
+-   **`process_name=%(program_name)s_%(process_num)02d`**: This line defines how each consumer process will be named.
+    -   `%(program_name)s` will be replaced by the program name (in this case, `consumer`).
+    -   `%(process_num)02d` will be replaced by the process number, formatted as a two-digit number (e.g., `00`, `01`, `02`).
+    -   Using this naming convention will result in processes named like `consumer_00`, `consumer_01`, `consumer_02`, etc., making it easier to identify and manage individual consumer processes.
+
+After modifying the `supervisord.conf` file, you need to update the Supervisor configuration for the changes to take effect. You can do this by restarting Supervisor or using `supervisorctl update`:
+
+~~~bash
+supervisorctl update
+~~~
+
+Then, check the status to ensure your new consumers are running:
+
+~~~bash
+supervisorctl status
+~~~
+
+You should see multiple `consumer` processes listed, corresponding to the `numprocs` value you set.
+
+
+
 
 3. **Install Dependencies**
 
