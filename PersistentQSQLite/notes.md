@@ -168,11 +168,24 @@ flowchart LR;
 **A:** Cleanup is triggered at the start of each `dequeue()` operation, with potential for scheduling as a background job in production.
 
 
-### Counsumers
+### Consumers
 
-**Q:** what happens to the process when all the counsumers dies ?  
-**A:** 1. If Supervisor is configured properly, it will automatically restart the consumer processes. This means that even if all consumers crash, Supervisor should bring them back up so processing can resume.  
-       2. Any jobs that were "processing" when the consumers died remain in the database. When a new consumer starts up, it will trigger the cleanup logic
+**Q:** what happens to the process when all the consumers dies ?  
+**A:** 1. If Supervisor is configured properly, it will automatically restart the consumer processes. This means that even if all consumers crash, Supervisor should bring them back up so processing can resume.    
+       2. Any jobs that were "processing" when the consumers died remain in the database if a job exceeds `MAX_ATTEMPTS`, it is marked as "failed. When a new consumer starts up, it will trigger the cleanup logic
+     
+
+**Q:** How can i add more cosumers ? 
+**A:**  1. Manually Starting Additional Consumer Processes:
+
+```bash
+poetry run python -m consumer.consumer
+
+```
+        2. Refer to - [Add More Consumers](#Add-More-Consumers)
+
+
+
 
 
 ---
