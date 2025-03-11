@@ -10,11 +10,11 @@ app = typer.Typer()
 @app.command()
 def list_jobs():
     """
-    List all jobs with details: job_id, job_data, status, and consumer_id.
+    List all jobs with details: job_id, job_data, status, consumer_id, and last_consumer.
     """
     jobs = QUEUE.list_jobs()
     for job in jobs:
-        typer.echo(f"Job ID: {job[0]}, Data: {job[1]}, Status: {job[2]}, Consumer: {job[3]}")
+        typer.echo(f"Job ID: {job[0]}, Data: {job[1]}, Status: {job[2]}, Consumer: {job[3]}, Last Consumer: {job[4]}")
 
 @app.command()
 def resubmit(job_id: str):
@@ -62,7 +62,6 @@ def delete_job_files(directory: str = "."):
 def delete_db_jobs():
     """
     Delete all job records from the persistent queue database.
-    Asks for confirmation before deletion.
     """
     if not typer.confirm("Are you sure you want to delete all job records from the database?"):
         typer.echo("Deletion cancelled.")
@@ -76,7 +75,7 @@ def delete_db_jobs():
 def assign_job(job_id: str, consumer_id: str):
     """
     Assign (or reassign) a job to a specified consumer.
-    Updates the job's consumer_id and marks it as 'processing'.
+    Updates the job's consumer_id, marks it as 'processing', and retains the last consumer info.
     """
     if not typer.confirm(f"Are you sure you want to assign job '{job_id}' to consumer '{consumer_id}'?"):
         typer.echo("Assignment cancelled.")
@@ -90,7 +89,7 @@ def assign_job(job_id: str, consumer_id: str):
 def monitor(interval: int = 5):
     """
     Monitor job statuses in real time.
-    Clears the screen and displays current job details every 'interval' seconds.
+    exits for special cases ! , new monitor_activity works better
     Press Ctrl+C to exit.
     """
     try:
@@ -100,12 +99,35 @@ def monitor(interval: int = 5):
             if jobs:
                 typer.echo("Current Jobs:")
                 for job in jobs:
-                    typer.echo(f"Job ID: {job[0]}, Data: {job[1]}, Status: {job[2]}, Consumer: {job[3]}")
+                    typer.echo(f"Job ID: {job[0]}, Data: {job[1]}, Status: {job[2]}, Consumer: {job[3]}, Last Consumer: {job[4]}")
             else:
                 typer.echo("No jobs found.")
             time.sleep(interval)
     except KeyboardInterrupt:
         typer.echo("Monitoring stopped.")
+
+@app.command()
+def monitor_activity(interval: int = 5):
+    """
+    Advance Monitoring to all job activities in real time.
+    Continuously displays the state of all jobs (creation, assignment, and current status),
+    Press Ctrl+C to stop.
+    """
+    try:
+        while True:
+            os.system("cls" if os.name == "nt" else "clear")
+            jobs = QUEUE.list_jobs()
+            if jobs:
+                header = f"{'Job ID':<40} {'Job Data':<20} {'Status':<15} {'Consumer':<15} {'Last Consumer':<15}"
+                print(header)
+                print("=" * len(header))
+                for job in jobs:
+                    print(f"{job[0]:<40} {str(job[1])[:20]:<20} {job[2]:<15} {job[3] or 'None':<15} {job[4] or 'None':<15}")
+            else:
+                print("No jobs found.")
+            time.sleep(interval)
+    except KeyboardInterrupt:
+        print("Monitoring stopped.")
 
 if __name__ == "__main__":
     app()

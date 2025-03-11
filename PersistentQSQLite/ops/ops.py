@@ -1,7 +1,6 @@
 import sys
 from pathlib import Path
 
-# Add the project root directory (one level up from this file's directory) to sys.path.
 current_dir = Path(__file__).resolve().parent
 project_root = current_dir.parent
 sys.path.append(str(project_root))
@@ -12,16 +11,13 @@ import streamlit as st
 from streamlit_autorefresh import st_autorefresh
 from persistent.persistentQSQLAlchemy import PersistentQSQLAlchemy as PersistentQ
 
-# Create a persistent queue instance.
 QUEUE = PersistentQ()
 
-# Configure the Streamlit page.
+
 st.set_page_config(page_title="Persistent Queue Dashboard", layout="wide")
 
-# Auto-refresh the page every 5000 milliseconds (5 seconds).
 st_autorefresh(interval=5000, limit=100, key="dashboard_autorefresh")
 
-# Sidebar navigation.
 st.sidebar.title("Navigation")
 page = st.sidebar.radio("Go to", ["Dashboard", "Manage Jobs", "Actions"])
 
@@ -34,10 +30,10 @@ if page == "Dashboard":
         """
     )
     
-    jobs = QUEUE.list_jobs()  # Returns list of tuples: (job_id, job_data, status, consumer_id)
+    jobs = QUEUE.list_jobs()
     if jobs:
         df = pd.DataFrame(jobs, columns=["Job ID", "Job Data", "Status", "Consumer"])
-        st.dataframe(df)  # Removed use_container_width parameter.
+        st.dataframe(df)  
     else:
         st.info("No jobs found.")
 

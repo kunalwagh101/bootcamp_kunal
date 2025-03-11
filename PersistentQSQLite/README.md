@@ -99,6 +99,12 @@ pip install -r requirements.txt
 supervisord -c supervisor/supervisord.conf
 ```
 
+#### Monitor All Processes:
+```bash
+poetry run python -m admin.admin monitor-activity --interval 5
+
+```
+
 #### Monitor Consumer Processes:
 ```bash
 poetry run python -m manager.manager

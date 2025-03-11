@@ -1,8 +1,14 @@
 
-import os
+import sys
+from pathlib import Path
 import time
 from prompt_toolkit.shortcuts import button_dialog, input_dialog, message_dialog
 from persistent.persistentQSQLAlchemy import PersistentQSQLAlchemy as PersistentQ
+import os
+
+current_dir = Path(__file__).resolve().parent
+project_root = current_dir.parent
+sys.path.append(str(project_root))
 
 QUEUE = PersistentQ()
 
@@ -12,7 +18,7 @@ def list_jobs():
     if not jobs:
         message_dialog(title="List Jobs", text="No jobs found.").run()
     else:
-        text = "\n".join([f"Job ID: {j[0]}, Status: {j[2]}, Consumer: {j[3]}" for j in jobs])
+        text = "\n".join([f"Job ID: {j[0]}, Status: {j[2]}, Consumer: {j[3]}, Last Consumer: {j[4]}" for j in jobs])
         message_dialog(title="List Jobs", text=text).run()
 
 def assign_job():
@@ -25,7 +31,6 @@ def assign_job():
     if not consumer_id:
         message_dialog(title="Assign Job", text="No Consumer ID entered.").run()
         return
-
     if QUEUE.assign_job(job_id, consumer_id):
         message_dialog(title="Assign Job", text=f"Job '{job_id}' assigned to consumer '{consumer_id}' successfully.").run()
     else:
@@ -37,7 +42,6 @@ def resubmit_job():
     if not job_id:
         message_dialog(title="Resubmit Job", text="No Job ID entered.").run()
         return
-
     if QUEUE.get_job_status(job_id) is None:
         message_dialog(title="Resubmit Job", text="Job not found.").run()
     else:
@@ -54,9 +58,7 @@ def mark_failed():
     message_dialog(title="Mark Job Failed", text=f"Job '{job_id}' marked as failed.").run()
 
 def delete_db_jobs():
-    """
-    Delete all job records from the database after confirmation.
-    """
+    """Delete all job records from the database after confirmation."""
     confirm = button_dialog(
         title="Delete DB Jobs",
         text="Are you sure you want to delete all job records from the database?",
@@ -78,7 +80,6 @@ def delete_job_files():
     if not job_files:
         message_dialog(title="Delete Job Files", text="No job files found.").run()
         return
-
     confirm = button_dialog(
         title="Delete Job Files",
         text=f"Found {len(job_files)} job file(s). Delete all?",
@@ -105,7 +106,7 @@ def monitor_jobs():
             os.system("cls" if os.name == "nt" else "clear")
             jobs = QUEUE.list_jobs()
             if jobs:
-                text = "\n".join([f"Job ID: {j[0]}, Status: {j[2]}, Consumer: {j[3]}" for j in jobs])
+                text = "\n".join([f"Job ID: {j[0]}, Status: {j[2]}, Consumer: {j[3]}, Last Consumer: {j[4] or 'None'}" for j in jobs])
             else:
                 text = "No jobs found."
             print("=== Current Jobs ===")

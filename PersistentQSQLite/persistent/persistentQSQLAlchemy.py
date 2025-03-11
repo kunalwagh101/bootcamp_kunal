@@ -6,12 +6,12 @@ from sqlalchemy import create_engine, Column, String, Integer, DateTime, func
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy.exc import SQLAlchemyError
-from persistent.persistent_map import Persistent_map 
-
+from persistent.persistent_map import Persistent_map  
 from dotenv import load_dotenv
 
 
 load_dotenv()
+
 
 DB_FILE = os.getenv("QUEUE_DB_FILE", "queue.db")
 DATABASE_URL = f"sqlite:///{DB_FILE}"
@@ -37,10 +37,11 @@ class Job(Base):
     status = Column(String, default="pending")
     attempts = Column(Integer, default=0)
     last_updated = Column(DateTime, default=func.current_timestamp(), onupdate=func.current_timestamp())
-    consumer_id = Column(String, nullable=True)
+    consumer_id = Column(String, nullable=True) 
+    last_consumer = Column(String, nullable=True)  
 
     def __repr__(self):
-        return f"<Job(job_id={self.job_id}, status={self.status}, attempts={self.attempts}, consumer_id={self.consumer_id})>"
+        return f"<Job(job_id={self.job_id}, status={self.status}, attempts={self.attempts}, consumer_id={self.consumer_id}, last_consumer={self.last_consumer})>"
 
 class PersistentQSQLAlchemy(Persistent_map):
     """
@@ -48,15 +49,13 @@ class PersistentQSQLAlchemy(Persistent_map):
     """
 
     def __init__(self):
-        """
-        Initialize the persistent queue and create the database tables if they do not exist.
-        """
+        """Initialize the persistent queue and create the database tables if they do not exist."""
         Base.metadata.create_all(bind=engine)
 
-    def enqueue(self, job_id: str, job_data: Any):
+    def enqueue(self, job_id: str, job_data: Any) :
         """
-        Enqueue a new job with the specified job_id and job_data.  
-        The job is inserted with a default status of pending.
+        Enqueue a new job with the specified job_id and job_data.      
+        The job is inserted with a default status of 'pending'.
         """
         session = SessionLocal()
         try:
@@ -69,10 +68,11 @@ class PersistentQSQLAlchemy(Persistent_map):
         finally:
             session.close()
 
-    def cleanup_stuck_jobs(self):
+    def cleanup_stuck_jobs(self) :
         """
-        Reset jobs that are stuck in the processing state beyond the timeout.      
-        Jobs with attempts less than MAX_ATTEMPTS are requeued and status set to pending
+        Reset jobs stuck in 'processing' beyond TIMEOUT_SECONDS.       
+        If a job's attempts are less than MAX_ATTEMPTS, it is requeued (status set to 'pending');
+        otherwise, it is marked as 'failed'. The consumer_id is cleared.
         """
         session = SessionLocal()
         try:
@@ -87,6 +87,7 @@ class PersistentQSQLAlchemy(Persistent_map):
                     job.status = "failed"
                     job.consumer_id = None
                     job.last_updated = datetime.datetime.now(datetime.timezone.utc)
+    
             session.commit()
         except SQLAlchemyError as e:
             session.rollback()
@@ -94,11 +95,11 @@ class PersistentQSQLAlchemy(Persistent_map):
         finally:
             session.close()
 
-    def dequeue(self, consumer_id: str) :
+    def dequeue(self, consumer_id: str) -> Optional[Tuple[str, Any]]:
         """
-        Atomically dequeue a pending job for the specified consumer.     
-        Increments the attempt count; if it exceeds MAX_ATTEMPTS, marks the job as failed.
-
+        Atomically dequeue a pending job for the specified consumer.      
+        Increments the attempt count; if the count exceeds MAX_ATTEMPTS, marks the job as 'failed'.
+        Otherwise, assigns the job to the consumer and updates its status to 'processing'.
         """
         self.cleanup_stuck_jobs()
         session = SessionLocal()
@@ -110,6 +111,7 @@ class PersistentQSQLAlchemy(Persistent_map):
                 if job.attempts > MAX_ATTEMPTS:
                     job.status = "failed"
                     job.consumer_id = consumer_id
+                    job.last_consumer = consumer_id
                     session.commit()
                     return None
                 else:
@@ -129,8 +131,8 @@ class PersistentQSQLAlchemy(Persistent_map):
 
     def update_job_status(self, job_id: str, status: str):
         """
-        Atomically update the status of a job with the given job_id.    
-        If the new status is not processing, the consumer_id is cleared.
+        Atomically update the status of the job with the given job_id.
+        If the new status is not 'processing', clears the consumer_id and saves it as last_consumer.
         Uses timezone-aware datetime for last_updated.
         """
         session = SessionLocal()
@@ -139,6 +141,7 @@ class PersistentQSQLAlchemy(Persistent_map):
             if job:
                 job.status = status
                 if status != "processing":
+                    job.last_consumer = job.consumer_id
                     job.consumer_id = None
                 job.last_updated = datetime.datetime.now(datetime.timezone.utc)
                 session.commit()
@@ -148,9 +151,9 @@ class PersistentQSQLAlchemy(Persistent_map):
         finally:
             session.close()
 
-    def get_job_status(self, job_id: str) -> Optional[str]:
+    def get_job_status(self, job_id: str) :
         """
-        Retrieve the current status of the job with the given job_id
+        Retrieve the current status of the job with the given job_id.
         """
         session = SessionLocal()
         try:
@@ -164,12 +167,12 @@ class PersistentQSQLAlchemy(Persistent_map):
 
     def list_jobs(self) :
         """
-        List all jobs in the persistent queue.  
+        List all jobs in the persistent queue.
         """
         session = SessionLocal()
         try:
             jobs = session.query(Job).all()
-            return [(job.job_id, job.job_data, job.status, job.consumer_id) for job in jobs]
+            return [(job.job_id, job.job_data, job.status, job.consumer_id, job.last_consumer) for job in jobs]
         except SQLAlchemyError as e:
             logger.exception(f"Error listing jobs: {e}")
             return []
@@ -178,7 +181,7 @@ class PersistentQSQLAlchemy(Persistent_map):
 
     def get_pending_jobs(self) :
         """
-        Retrieve all jobs with a pending state
+        Retrieve all pending jobs.
         """
         session = SessionLocal()
         try:
@@ -192,7 +195,7 @@ class PersistentQSQLAlchemy(Persistent_map):
 
     def get_failed_jobs(self) :
         """
-        Retrieve all jobs that have been marked as failed.   
+        Retrieve all failed jobs.
         """
         session = SessionLocal()
         try:
@@ -206,7 +209,7 @@ class PersistentQSQLAlchemy(Persistent_map):
 
     def delete_all(self) :
         """
-        Delete all job records from the database.      
+        Delete all job records from the database.    
         """
         session = SessionLocal()
         try:
@@ -222,8 +225,8 @@ class PersistentQSQLAlchemy(Persistent_map):
 
     def assign_job(self, job_id: str, consumer_id: str) :
         """
-        Assign or reassign the specified job to a consumer.
-        Updates the job's consumer_id and sets its status to processing, along with updating last_updated
+        Assign (or reassign) the specified job to a consumer.     
+        Sets the job's consumer_id, marks its status as 'processing', and updates last_updated. 
         """
         session = SessionLocal()
         try:

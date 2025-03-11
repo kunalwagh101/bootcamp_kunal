@@ -191,10 +191,28 @@ flowchart LR;
    Create a `.env` file in the project root with the following content:
 
    ~~~ini
-   QUEUE_DB_FILE=queue.db
-   MAX_ATTEMPTS=3
-   TIMEOUT_SECONDS=60
+  QUEUE_DB_FILE=queue.db
+  MAX_ATTEMPTS=3
+  TIMEOUT_SECONDS=60
+  INTERVAL_TIME = 5 
    ~~~
+
+  **add more consumers ?**
+
+  In supervisord.conf file 
+  ```ini
+
+  [program:consumer]
+  command=poetry run python -m consumer.consumer
+  numprocs=1
+  process_name=%(program_name)s_%(process_num)02d
+  autostart=true
+  autorestart=true
+  stdout_logfile=consumer.log
+  stderr_logfile=consumer_err.log
+  ```
+ 
+  change numprocs to = no. of consumers you want
 
 3. **Install Dependencies**
 
@@ -221,6 +239,15 @@ supervisord -c supervisor/supervisord.conf
 ~~~bash
 supervisorctl status
 ~~~
+
+
+**monitor all activities:**
+
+~~~bash
+poetry run python -m admin.admin monitor-activity --interval 5
+~~~
+
+
 
 ### Ops Dashboard (Streamlit)
 
