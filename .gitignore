@@ -49,7 +49,7 @@ copy()_Persistent/
 
 
 
-
+ PersistentQSQLite/queue.db/
 
 PersistentQSQLite\dist\persistent_queue_system-0.1.0-py3-none-any.whl
 PersistentQSQLite\dist\persistent_queue_system-0.1.0.tar.gz

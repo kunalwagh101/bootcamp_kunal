@@ -340,11 +340,10 @@ poetry run python -m admin.admin assign-job <job_id> <consumer_id>
 
 **Q:** How can i add more consumers ?   
 **A:** 1. start manually   
-  
 
-      ```bash
+  ```bash
       poetry run python -m consumer.consumer 
-      ```
+  ```
        2.Refer to - [Add More Consumers](#add-more-consumers)  
     
 
@@ -360,34 +359,35 @@ poetry run python -m admin.admin assign-job <job_id> <consumer_id>
 **Q:** what happens to the process when all the Producer or any Producer dies ?  
 **A:** 
   1. producer is managed by Supervisor with autorestart=true, Supervisor will automatically attempt to restart the producer process
-  2. Jobs that were already enqueued remain in the persistent queue (in the database) and are unaffected by the producer crash. Consumers will continue processing existing jobs.
+  2. Jobs that were already enqueued remain in the persistent queue (in the database) and are unaffected by the producer crash. Consumers will continue processing existing jobs.  
 
 **Q:** How can i add more Producer ?
-**A:** ```bash
+**A:** 
+```bash
         poetry run python -m producer.producer --interval=5
-      ```
+```
 **Q:** How can i change Producer time interval for the main processes
 **A:** Update the Environment Variable:
       Change the value of INTERVAL_TIME to your new desired interval (for example, using export INTERVAL_TIME=15 in your shell or updating your .env file)
 
-    ```ini
+```ini
        QUEUE_DB_FILE=queue.db
         MAX_ATTEMPTS=3
         TIMEOUT_SECONDS=60
         INTERVAL_TIME = 5 # set the time interval as per your requirement
-    ```
+```
 
         then run SIGHUP signal to the producer so that it reloads the interval without restarting
 
-    ```bash
+```bash
         supervisorctl signal SIGHUP producer
 
-    ```
+```
 
 
 ## Admin 
-**Q:** what happens to the process when all the Admin  dies ? 
-**A:**  admin component is primarily a management tool—it's not a continuously running critical process like a consumer or producer. If an admin CLI session (or even a web-based admin interface) terminates unexpectedly, it doesn't impact the overall system. You can simply restart the admin tool, and the underlying persistent queue, producers, and consumers will continue to operate normally.
+**Q:** what happens to the process when all the Admin  dies ?  
+**A:** admin component is primarily a management tool—it's not a continuously running critical process like a consumer or producer. If an admin CLI session (or even a web-based admin interface) terminates unexpectedly, it doesn't impact the overall system. You can simply restart the admin tool, and the underlying persistent queue, producers, and consumers will continue to operate normally.
 
 ---
 
@@ -400,7 +400,7 @@ This might be supported via a consumer manager script or adjustments to Supervis
 **Kill a Consumer Process:**
 
 ~~~bash
-supervisorctl stop consumer_00
+supervisorctl -c supervisor/supervisord.conf stop consumer:consumer_00
 ~~~
 
 **Monitor All Processes:**
@@ -441,6 +441,7 @@ Create a `.env` file in the project root with:
 QUEUE_DB_FILE=queue.db
 MAX_ATTEMPTS=3
 TIMEOUT_SECONDS=60
+INTERVAL_TIME = 5
 ~~~
 
 **Start Supervisor Processes:**
