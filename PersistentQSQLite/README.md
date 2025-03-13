@@ -92,7 +92,7 @@ pip install -r requirements.txt
     MAX_ATTEMPTS=3
     TIMEOUT_SECONDS=60
     INTERVAL_TIME = 5
-    
+
   ```
 
 ---
@@ -171,11 +171,6 @@ supervisorctl status
 
 ## Additional Commands
 
-#### Create Multiple Consumers  
-*(Note: `--count 1` adds 3 new consumers)*
-```bash
-poetry run python -m manager.consumer_manager --count 1
-```
 
 #### Kill a Consumer  
 Replace `<consumer_id>` as needed:

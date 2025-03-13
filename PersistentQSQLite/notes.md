@@ -172,13 +172,7 @@ flowchart LR;
      
 
 **Q:** How can i add more consumers ?   
-**A:**  1. Manually Starting Additional Consumer Processes:
-
-```bash
-poetry run python -m consumer.consumer
-
-```
-  2. Refer to - [Add More Consumers](#add-more-consumers)  
+**A:** Refer to - [Add More Consumers](#add-more-consumers)  
     
 
 
