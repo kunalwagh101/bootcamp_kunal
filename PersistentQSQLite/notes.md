@@ -222,9 +222,7 @@ poetry run python -m consumer.consumer
 
   **Add More Consumers**
 
-    To increase the number of consumers, you need to modify the `supervisor/supervisord.conf` file.  Locate the `[program:consumer]` section and adjust the `numprocs` setting.
 
-    In `supervisor/supervisord.conf` file:
 
   ```ini
 
@@ -241,11 +239,11 @@ poetry run python -m consumer.consumer
 
   **Explanation:**
 
-    - **`environment=ENV_CONSUMER_NUM=3`**:  In this example, we've changed `numprocs` to `3`. This tells Supervisor to start and manage **three** consumer processes. You can change `3` to any number of consumers you need.
-    - **`process_name=%(program_name)s_%(process_num)02d`**: This line ensures that each consumer process will have a unique name (e.g., `consumer_00`, `consumer_01`, `consumer_02`, etc.), which is helpful for monitoring and managing them individually using `supervisorctl`.
+  - **`environment=ENV_CONSUMER_NUM=3`**:  In this example, we've changed `numprocs` to `3`. This tells Supervisor to start and manage **three** consumer processes. You can change `3` to any number of consumers you need.
+  - **`process_name=%(program_name)s_%(process_num)02d`**: This line ensures that each consumer process will have a unique name (e.g., `consumer_00`, `consumer_01`, `consumer_02`, etc.), which is helpful for monitoring and managing them individually using `supervisorctl`.
 
 
-    **Or**
+  **Or**
 
   change the environment variable
 
