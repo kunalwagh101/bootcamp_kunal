@@ -208,27 +208,25 @@ poetry run python -m consumer.consumer
    ~~~
 ## Setup & Installation
 
-
-
   2. **Environment Configuration**
 
-    Create a `.env` file in the project root with the following content:
+  Create a `.env` file in the project root with the following content:
 
-    ```ini
+  ```ini
     QUEUE_DB_FILE=queue.db
     MAX_ATTEMPTS=3
     TIMEOUT_SECONDS=60
     INTERVAL_TIME = 5
     ENV_CONSUMER_NUM=1
-   ```
+  ```
 
-    **Add More Consumers**
+  **Add More Consumers**
 
     To increase the number of consumers, you need to modify the `supervisor/supervisord.conf` file.  Locate the `[program:consumer]` section and adjust the `numprocs` setting.
 
     In `supervisor/supervisord.conf` file:
 
-    ```ini
+  ```ini
 
     [program:consumer]
     command=poetry run python -m consumer.consumer
@@ -239,9 +237,9 @@ poetry run python -m consumer.consumer
     autorestart=true
     stdout_logfile=consumer.log
     stderr_logfile=consumer_err.log
-    ```
+  ```
 
-    **Explanation:**
+  **Explanation:**
 
     - **`environment=ENV_CONSUMER_NUM=3`**:  In this example, we've changed `numprocs` to `3`. This tells Supervisor to start and manage **three** consumer processes. You can change `3` to any number of consumers you need.
     - **`process_name=%(program_name)s_%(process_num)02d`**: This line ensures that each consumer process will have a unique name (e.g., `consumer_00`, `consumer_01`, `consumer_02`, etc.), which is helpful for monitoring and managing them individually using `supervisorctl`.
@@ -249,16 +247,15 @@ poetry run python -m consumer.consumer
 
     **Or**
 
-    change the environment variable
+  change the environment variable
 
-      ~~~ini
+  ~~~ini
       QUEUE_DB_FILE=queue.db
       MAX_ATTEMPTS=3
       TIMEOUT_SECONDS=60
       INTERVAL_TIME = 5
       ENV_CONSUMER_NUM=1 # set the no of consumer as per your needs
-
-      ~~~
+  ~~~
 
 
 **After making these changes:**
