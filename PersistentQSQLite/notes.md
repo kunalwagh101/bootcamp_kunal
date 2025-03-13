@@ -214,14 +214,13 @@ poetry run python -m consumer.consumer
 
     Create a `.env` file in the project root with the following content:
 
-    ~~~ini
+    ```ini
     QUEUE_DB_FILE=queue.db
     MAX_ATTEMPTS=3
     TIMEOUT_SECONDS=60
     INTERVAL_TIME = 5
     ENV_CONSUMER_NUM=1
-
-    ~~~
+   ```
 
     **Add More Consumers**
 
@@ -229,7 +228,7 @@ poetry run python -m consumer.consumer
 
     In `supervisor/supervisord.conf` file:
 
-    ~~~ini
+    ```ini
 
     [program:consumer]
     command=poetry run python -m consumer.consumer
@@ -240,7 +239,7 @@ poetry run python -m consumer.consumer
     autorestart=true
     stdout_logfile=consumer.log
     stderr_logfile=consumer_err.log
-    ~~~
+    ```
 
     **Explanation:**
 
