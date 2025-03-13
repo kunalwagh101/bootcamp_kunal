@@ -175,6 +175,12 @@ flowchart LR;
 **A:** Refer to - [Add More Consumers](#add-more-consumers)  
     
 
+**Q:** How can i Kill a consumer ?   
+**A:**   supervisorctl -c supervisor/supervisord.conf stop consumer:<consumer_id>
+```bash
+ supervisorctl -c supervisor/supervisord.conf stop consumer:consumer_00
+```
+    
 
 
 
