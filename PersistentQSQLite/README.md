@@ -92,7 +92,7 @@ pip install -r requirements.txt
     MAX_ATTEMPTS=3
     TIMEOUT_SECONDS=60
     INTERVAL_TIME = 5
-    ENV_CONSUMER_NUM=1
+    
   ```
 
 ---
