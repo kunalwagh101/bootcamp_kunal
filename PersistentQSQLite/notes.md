@@ -175,14 +175,14 @@ flowchart LR;
        2. Any jobs that were "processing" when the consumers died remain in the database if a job exceeds `MAX_ATTEMPTS`, it is marked as "failed. When a new consumer starts up, it will trigger the cleanup logic
      
 
-**Q:** How can i add more cosumers ?   
+**Q:** How can i add more consumers ?   
 **A:**  1. Manually Starting Additional Consumer Processes:
 
 ```bash
 poetry run python -m consumer.consumer
 
 ```
-  2. Refer to - [Add More Consumers](#Add-More-Consumers)
+  2. Refer to - [Add More Consumers](#add-more-consumers)
 
 
 
@@ -215,10 +215,12 @@ poetry run python -m consumer.consumer
    Create a `.env` file in the project root with the following content:
 
    ~~~ini
-   QUEUE_DB_FILE=queue.db
-   MAX_ATTEMPTS=3
-   TIMEOUT_SECONDS=60
-   INTERVAL_TIME=5
+  QUEUE_DB_FILE=queue.db
+  MAX_ATTEMPTS=3
+  TIMEOUT_SECONDS=60
+  INTERVAL_TIME = 5
+  ENV_CONSUMER_NUM=1
+
    ~~~
 
 **Add More Consumers**
@@ -230,7 +232,8 @@ In `supervisor/supervisord.conf` file:
 ~~~ini
 [program:consumer]
 command=poetry run python -m consumer.consumer
-numprocs=3  ; Change this number to the desired number of consumers
+numprocs=%(ENV_CONSUMER_NUM)s
+environment=ENV_CONSUMER_NUM="1" #Change this number to the desired number of consumers
 process_name=%(program_name)s_%(process_num)02d
 autostart=true
 autorestart=true
@@ -240,8 +243,23 @@ stderr_logfile=consumer_err.log
 
 **Explanation:**
 
-- **`numprocs=3`**:  In this example, we've changed `numprocs` to `3`. This tells Supervisor to start and manage **three** consumer processes. You can change `3` to any number of consumers you need.
+- **`environment=ENV_CONSUMER_NUM=3`**:  In this example, we've changed `numprocs` to `3`. This tells Supervisor to start and manage **three** consumer processes. You can change `3` to any number of consumers you need.
 - **`process_name=%(program_name)s_%(process_num)02d`**: This line ensures that each consumer process will have a unique name (e.g., `consumer_00`, `consumer_01`, `consumer_02`, etc.), which is helpful for monitoring and managing them individually using `supervisorctl`.
+
+
+**Or**
+
+change the environment variable
+
+   ~~~ini
+  QUEUE_DB_FILE=queue.db
+  MAX_ATTEMPTS=3
+  TIMEOUT_SECONDS=60
+  INTERVAL_TIME = 5
+  ENV_CONSUMER_NUM=1 # set the no of consumer as per your needs
+
+   ~~~
+
 
 **After making these changes:**
 
@@ -295,6 +313,15 @@ poetry run python -m admin.admin monitor-activity --interval 5
 ~~~
 
 
+### Interactive Manager (TUI)
+
+**Launch the Interactive Manager:**
+
+~~~bash
+poetry run python -m manager.manager
+~~~
+
+
 
 ### Ops Dashboard (Streamlit)
 
@@ -344,13 +371,6 @@ poetry run python -m admin.admin delete-job-files --directory .
 poetry run python -m admin.admin assign-job <job_id> <consumer_id>
 ~~~
 
-### Interactive Manager (TUI)
-
-**Launch the Interactive Manager:**
-
-~~~bash
-poetry run python -m manager.manager_tui
-~~~
 
 ---
 
