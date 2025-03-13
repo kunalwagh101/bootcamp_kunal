@@ -83,6 +83,18 @@ The system leverages SQLite transactions for atomic operations and uses Supervis
 pip install -r requirements.txt
 ```
 
+- **Environment Configuration**
+
+  Create a `.env` file in the project root with the following content:
+
+  ```ini
+    QUEUE_DB_FILE=queue.db
+    MAX_ATTEMPTS=3
+    TIMEOUT_SECONDS=60
+    INTERVAL_TIME = 5
+    ENV_CONSUMER_NUM=1
+  ```
+
 ---
 
 ## Running the Application
@@ -105,7 +117,7 @@ poetry run python -m admin.admin monitor-activity --interval 5
 
 ```
 
-#### Monitor Consumer Processes:
+#### Launch the Interactive Manager:
 ```bash
 poetry run python -m manager.manager
 ```
