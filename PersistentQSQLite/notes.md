@@ -344,7 +344,7 @@ poetry run python -m admin.admin assign-job <job_id> <consumer_id>
   ```bash
       poetry run python -m consumer.consumer 
   ```
-       2.Refer to - [Add More Consumers](#add-more-consumers)  
+  2.Refer to - [Add More Consumers](#add-more-consumers)  
     
 
 **Q:** How can i Kill a consumer ?   
@@ -361,13 +361,13 @@ poetry run python -m admin.admin assign-job <job_id> <consumer_id>
   1. producer is managed by Supervisor with autorestart=true, Supervisor will automatically attempt to restart the producer process
   2. Jobs that were already enqueued remain in the persistent queue (in the database) and are unaffected by the producer crash. Consumers will continue processing existing jobs.  
 
-**Q:** How can i add more Producer ?
+**Q:** How can i add more Producer ?  
 **A:** 
 ```bash
         poetry run python -m producer.producer --interval=5
 ```
-**Q:** How can i change Producer time interval for the main processes
-**A:** Update the Environment Variable:
+**Q:** How can i change Producer time interval for the main processes  
+**A:** Update the Environment Variable:  
       Change the value of INTERVAL_TIME to your new desired interval (for example, using export INTERVAL_TIME=15 in your shell or updating your .env file)
 
 ```ini
@@ -377,7 +377,7 @@ poetry run python -m admin.admin assign-job <job_id> <consumer_id>
         INTERVAL_TIME = 5 # set the time interval as per your requirement
 ```
 
-        then run SIGHUP signal to the producer so that it reloads the interval without restarting
+then run SIGHUP signal to the producer so that it reloads the interval without restarting
 
 ```bash
         supervisorctl signal SIGHUP producer
