@@ -152,10 +152,6 @@ flowchart LR;
 **Q:** How does the producer simulate job generation?  
 **A:** It uses Python’s `tempfile` module to create unique temporary files with random content, mimicking realistic job submissions.
 
-### Consumer Failure Handling
-
-**Q:** What happens if a consumer fails mid-processing?  
-**A:** Jobs stuck in a "processing" state are reset by a periodic cleanup process; if a job exceeds `MAX_ATTEMPTS`, it is marked as "failed."
 
 ### CLI vs. Web-Based Interfaces
 
@@ -182,11 +178,12 @@ flowchart LR;
 poetry run python -m consumer.consumer
 
 ```
-  2. Refer to - [Add More Consumers](#add-more-consumers)
+  2. Refer to - [Add More Consumers](#add-more-consumers)  
+    
 
 
 
-\n
+
 
 ---
 
