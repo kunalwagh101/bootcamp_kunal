@@ -176,7 +176,7 @@ class PersistentQSQLAlchemy(Persistent_map):
         except SQLAlchemyError as e:
             logger.exception(f"Error listing jobs: {e}")
             return []
-        finally:
+        finally: 
             session.close()
 
     def get_pending_jobs(self) :

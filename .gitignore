@@ -12,6 +12,7 @@ venv/
 streams\basics\__pycache__/
 __pycache__
 
+H:\Aganitha\bootcamp\PersistentQSQLite\fast.api/
 
 PersistentQSQLite\consumer_err.log
 PersistentQSQLite\consumer.log
@@ -47,7 +48,8 @@ PersistentQSQLite/producer.log
 copy()_Persistent
 copy()_Persistent/
 
-
+H:\Aganitha\bootcamp\PersistentQSQLite\queue.db/
+H:/Aganitha/bootcamp/PersistentQSQLite/queue.db/
 
  PersistentQSQLite/queue.db/
 

@@ -5,7 +5,7 @@ current_dir = Path(__file__).resolve().parent
 project_root = current_dir.parent
 sys.path.append(str(project_root))
 
-import datetime
+
 import pandas as pd
 import streamlit as st
 from streamlit_autorefresh import st_autorefresh
@@ -32,7 +32,7 @@ if page == "Dashboard":
     
     jobs = QUEUE.list_jobs()
     if jobs:
-        df = pd.DataFrame(jobs, columns=["Job ID", "Job Data", "Status", "Consumer"])
+        df = pd.DataFrame(jobs, columns=["Job ID", "Job Data", "Status", "Consumer","Last Consumer"])
         st.dataframe(df)  
     else:
         st.info("No jobs found.")
@@ -73,7 +73,8 @@ elif page == "Manage Jobs":
     st.subheader("Current Jobs")
     jobs = QUEUE.list_jobs()
     if jobs:
-        df = pd.DataFrame(jobs, columns=["Job ID", "Job Data", "Status", "Consumer"])
+    
+        df = pd.DataFrame(jobs, columns=["Job ID", "Job Data", "Status", "Consumer","Last Consumer"])
         st.dataframe(df)
     else:
         st.info("No jobs found.")
